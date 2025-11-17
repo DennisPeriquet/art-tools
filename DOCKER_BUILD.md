@@ -33,11 +33,6 @@ Once you have all required files in the repository root:
 ```bash
 # Build the container
 docker build -t art-tools .
-
-# Or build a specific variant
-docker build -f Dockerfile.full -t art-tools:full .
-docker build -f Dockerfile.simple -t art-tools:simple .
-docker build -f Dockerfile.minimal -t art-tools:minimal .
 ```
 
 ## Running the Container

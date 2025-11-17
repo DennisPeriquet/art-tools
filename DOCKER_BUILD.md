@@ -1,6 +1,6 @@
-# Building the art-tools Docker Container
+# Building the art-tools Podman Container
 
-This guide shows how to build and run the art-tools Docker container with Red Hat internal tooling.
+This guide shows how to build and run the art-tools container using Podman with Red Hat internal tooling.
 
 ## Prerequisites
 
@@ -32,20 +32,20 @@ Once you have all required files in the repository root:
 
 ```bash
 # Build the container
-docker build -t art-tools .
+podman build -t art-tools .
 ```
 
 ## Running the Container
 
 ```bash
 # Run interactively
-docker run -it --rm art-tools
+podman run -it --rm art-tools
 
 # Run with mounted workspace
-docker run -it --rm -v $(pwd):/workspaces/art-tools art-tools
+podman run -it --rm -v $(pwd):/workspaces/art-tools art-tools
 
 # Run specific command
-docker run --rm art-tools doozer --version
+podman run --rm art-tools doozer --version
 ```
 
 ## What's Included
@@ -60,7 +60,7 @@ The container includes:
 
 ```bash
 # Test all tools
-docker run --rm art-tools bash -c "
+podman run --rm art-tools bash -c "
   echo 'doozer:' && doozer --version
   echo 'elliott:' && elliott --version
   echo 'artcd:' && artcd --version
@@ -70,8 +70,29 @@ docker run --rm art-tools bash -c "
 "
 ```
 
+## Container Management
+
+```bash
+# List available images
+podman images | grep art-tools
+
+# List running containers
+podman ps
+
+# Clean up unused images
+podman image prune
+
+# Remove specific image if needed
+podman rmi art-tools:latest
+
+# Check container logs
+podman logs <container-id>
+```
+
 ## Troubleshooting
 
 - If builds fail with network errors, ensure you're connected to Red Hat VPN
 - The container requires the three files listed above to be present in the build context
 - For locale issues, the main Dockerfile now properly configures UTF-8 after installing language packs
+- Podman provides Docker CLI compatibility; all `docker` commands work with `podman`
+- For rootless containers, ensure proper user permissions for volume mounts
